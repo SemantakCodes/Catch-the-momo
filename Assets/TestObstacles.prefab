@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4155076138802001589}
   - component: {fileID: 1452316146616984446}
   - component: {fileID: 4839261025583095693}
-  - component: {fileID: 560846055897126166}
   - component: {fileID: 5757191754240487724}
+  - component: {fileID: 4058592614417356258}
   - component: {fileID: 3063498304308031586}
   m_Layer: 0
   m_Name: TestObstacles
@@ -93,22 +93,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &560846055897126166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5963517452662488281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3b16872e4992f74e88ef03f2cf7bfa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MomoController
-  fallSpeed: 5
-  useGravity: 1
-  playerTag: Player
-  boundsCheckInterval: 0.5
 --- !u!61 &5757191754240487724
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -155,6 +139,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &4058592614417356258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5963517452662488281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a688170cc3b14d4fad7535fc934fbbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GuffController
+  fallSpeed: 5
+  useGravity: 1
+  playerTag: Player
+  boundsCheckInterval: 0.5
 --- !u!50 &3063498304308031586
 Rigidbody2D:
   serializedVersion: 5
