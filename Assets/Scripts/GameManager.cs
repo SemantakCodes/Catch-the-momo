@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
     [Header("Game Settings")]
     [SerializeField] private string gameOverScene;
 
+    private int score = 0;
+
     void Start()
     {
         mainCam = Camera.main;
@@ -163,6 +165,18 @@ public class GameManager : MonoBehaviour
                 return;
             }
         }
+    }
+
+    // Increase the score
+    public void AddScore(int points)
+    {
+        score += points;
+        Debug.Log("Score: " + score);
+    }
+
+    public int GetScore()
+    {
+        return score;
     }
 
     public void EndGame()
