@@ -18,7 +18,6 @@ Catch the Momo is a hyper-casual arcade experience built for the Nepali soul. In
 | 🚫 **The Guff Filter** | Avoid golden speech bubbles like "Chito auncha" or "Paisa bholi dinchu." |
 | 🌶️ **Akabare Heat** | Catch the rare chili to enter Fire Mode—everything turns red and points double! |
 | 🔊 **Local Audio** | High-quality sound bites featuring iconic street calls, pressure cooker whistles, and local slang. |
-| 🏆 **Regional Pride** | Compete on leaderboards to see which city—Kathmandu, Pokhara, or Butwal—eats the most. |
 
 ---
 
@@ -44,7 +43,7 @@ Catch the Momo is a hyper-casual arcade experience built for the Nepali soul. In
 
 ```bash
 # Clone the repository
-git clone https://github.com/semus/catch-the-momo.git
+git clone https://github.com/SemantakCodes/Catch-the-momo.git
 
 # Open the project in Unity
 # Ensure you have Unity 6 (6000.0.x) installed
@@ -58,26 +57,9 @@ git clone https://github.com/semus/catch-the-momo.git
 
 ---
 
-## 📈 Roadmap
-
-- [ ] Multiplayer Mode: 1v1 "Momo Eating Contest"
-- [ ] Skins: Unlock Tapari, Brass Plates, or Silver Platters
-- [ ] Global Tour: Add levels for different cities across Nepal
-- [ ] Meme Integration: Real-time viral sound clips updated weekly
-
----
-
-## 🤝 Contributing
-
-Got a funny voice line or a "Guff" idea? Feel free to [open an issue](../../issues) or [submit a PR](../../pulls). Let's make this the biggest game in Nepal!
-
-> "Khaubadi! Don't let the plate go empty."
-
----
-
 ## 📬 Connect
 
-**Developer:** semus  
+**Developer:** Semantak aka Slepin 
 **Project:** Part of the Viral Games Series 🇳🇵
 
 ---
