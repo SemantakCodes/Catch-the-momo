@@ -29,11 +29,6 @@ public class GuffController : MonoBehaviour
         mainCam = Camera.main;
         gameManager = Object.FindFirstObjectByType<GameManager>();
 
-        if (rb == null)
-        {
-            Debug.LogWarning("MomoController: No Rigidbody2D found! Adding one.");
-            rb = gameObject.AddComponent<Rigidbody2D>();
-        }
 
         // Setup physics
         rb.gravityScale = useGravity ? 1f : 0f;
@@ -65,18 +60,27 @@ public class GuffController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Check if collided with player - Game Over!
+        // Check if collided with player - Lose a life!
         if (collision.CompareTag(playerTag))
         {
             isActive = false;
-            if (gameManager != null)
+            
+            // Get player movement component
+            PlayerMovement playerMovement = collision.GetComponent<PlayerMovement>();
+            
+            // Only deal damage if player is not invincible
+            if (playerMovement != null && !playerMovement.IsInvincible())
             {
-                gameManager.EndGame();
+                playerMovement.Blink();
+                playerMovement.ResetPosition();
+                
+                if (gameManager != null)
+                {
+                    gameManager.LoseLife(); // Lose one life
+                }
             }
-            else
-            {
-                Debug.LogWarning("GameManager not found for game over!");
-            }
+            
+            RemoveObject(); // Remove the Guff after collision
         }
     }
 

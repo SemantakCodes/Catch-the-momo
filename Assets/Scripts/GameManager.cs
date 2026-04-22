@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using TMPro;
 
 [System.Serializable]
 public class SpawnableObject
@@ -31,11 +32,16 @@ public class GameManager : MonoBehaviour
     // Object pooling
     private Dictionary<GameObject, Queue<GameObject>> objectPools = new();
     private List<GameObject> activeObjects = new();
+    private GameObject lastSpawnedPrefab = null; // Track last spawn to vary spawns
 
     [Header("Game Settings")]
     [SerializeField] private string gameOverScene;
 
-    private int score = 0;
+    public int score = 0;
+    private int lives = 3; // Player starts with 3 lives
+
+    [Header("UI references")]
+    [SerializeField] private TextMeshProUGUI scoreText;
 
     void Start()
     {
@@ -70,8 +76,9 @@ public class GameManager : MonoBehaviour
             totalSpawned++;
         }
 
-        // Clean up destroyed objects from active list
-        activeObjects.RemoveAll(obj => obj == null);
+        // Clean up destroyed or deactivated objects from active list
+        activeObjects.RemoveAll(obj => obj == null || !obj.activeSelf);
+        UpdateScoreUI();
     }
 
     private void InitializeObjectPools()
@@ -126,17 +133,32 @@ public class GameManager : MonoBehaviour
         foreach (var obj in objectPrefabs)
             totalWeight += obj.spawnWeight;
 
-        float randomValue = Random.value * totalWeight;
-        float cumulativeWeight = 0f;
-
-        foreach (var obj in objectPrefabs)
+        // Try to pick something different from last spawn
+        SpawnableObject selected = null;
+        int attempts = 0;
+        
+        do
         {
-            cumulativeWeight += obj.spawnWeight;
-            if (randomValue <= cumulativeWeight)
-                return obj;
-        }
+            float randomValue = Random.value * totalWeight;
+            float cumulativeWeight = 0f;
 
-        return objectPrefabs[0];
+            foreach (var obj in objectPrefabs)
+            {
+                cumulativeWeight += obj.spawnWeight;
+                if (randomValue <= cumulativeWeight)
+                {
+                    selected = obj;
+                    break;
+                }
+            }
+            
+            attempts++;
+        } while (selected != null && lastSpawnedPrefab == selected.prefab && attempts < 3 && objectPrefabs.Length > 1);
+
+        if (selected != null)
+            lastSpawnedPrefab = selected.prefab;
+
+        return selected ?? objectPrefabs[0];
     }
 
     private void CalculateSpawnArea()
@@ -157,13 +179,21 @@ public class GameManager : MonoBehaviour
             activeObjects.Remove(obj);
 
         // Return to pool instead of destroying
+        bool pooled = false;
         foreach (var prefab in objectPrefabs)
         {
             if (obj.name.Contains(prefab.prefab.name))
             {
                 ReturnToPool(obj, prefab.prefab);
-                return;
+                pooled = true;
+                break;
             }
+        }
+        
+        // If not pooled, deactivate the object to ensure it's hidden
+        if (!pooled)
+        {
+            obj.SetActive(false);
         }
     }
 
@@ -177,6 +207,30 @@ public class GameManager : MonoBehaviour
     public int GetScore()
     {
         return score;
+    }
+    private void UpdateScoreUI(){
+        if(scoreText != null)
+        {
+            scoreText.text = $"Momo: {score}";
+        }
+    }
+
+    // Lives management
+    public int GetLives()
+    {
+        return lives;
+    }
+
+    public void LoseLife()
+    {
+        lives--;
+        Debug.Log("Lives remaining: " + lives);
+
+        // Check if game over (when lives reach 0)
+        if (lives <= 0)
+        {
+            EndGame();
+        }
     }
 
     public void EndGame()

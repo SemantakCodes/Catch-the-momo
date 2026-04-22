@@ -14,7 +14,7 @@ public class MomoController : MonoBehaviour
     private Camera mainCam;
     private float screenBottomY;
     private float nextBoundsCheckTime;
-    private GameManager gameManager;
+    [SerializeField] private GameManager gameManager;
     private bool isActive = true;
 
     private void OnEnable()
@@ -26,14 +26,8 @@ public class MomoController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        mainCam = Camera.main;
         gameManager = Object.FindFirstObjectByType<GameManager>();
-
-        if (rb == null)
-        {
-            Debug.LogWarning("MomoController: No Rigidbody2D found! Adding one.");
-            rb = gameObject.AddComponent<Rigidbody2D>();
-        }
+        mainCam = Camera.main;
 
         // Setup physics for falling
         rb.gravityScale = useGravity ? 1f : 0f;
@@ -68,7 +62,6 @@ public class MomoController : MonoBehaviour
         // Check if collided with player
         if (collision.CompareTag(playerTag))
         {
-            isActive = false;
 
             // Increase score through GameManager
             if (gameManager != null)
@@ -87,14 +80,12 @@ public class MomoController : MonoBehaviour
 
         isActive = false;
 
-        // Call back to GameManager for pooling
         if (gameManager != null)
         {
             gameManager.OnObjectRemoved(gameObject);
         }
         else
         {
-            // Fallback if GameManager isn't available
             gameObject.SetActive(false);
         }
     }
