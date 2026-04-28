@@ -40,21 +40,7 @@ public class MomoController : MonoBehaviour
 
     private void Update()
     {
-        // Check bounds periodically for efficiency
-        if (isActive && Time.time >= nextBoundsCheckTime)
-        {
-            CheckScreenBounds();
-            nextBoundsCheckTime = Time.time + boundsCheckInterval;
-        }
-    }
-
-    private void CheckScreenBounds()
-    {
-        // Destroy if below screen
-        if (transform.position.y < screenBottomY)
-        {
-            RemoveObject();
-        }
+        // Bounds checking removed - now destruction happens on ground collision
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -71,6 +57,11 @@ public class MomoController : MonoBehaviour
 
             // Drop and destroy Momo
             RemoveObject();
+        }
+        // Check if collided with ground
+        else if (collision.CompareTag("ground"))
+        {
+            RemoveObject(); // Destroy when hitting ground
         }
     }
 

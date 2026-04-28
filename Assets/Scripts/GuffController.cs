@@ -41,21 +41,7 @@ public class GuffController : MonoBehaviour
 
     private void Update()
     {
-        // Efficient bounds checking at intervals instead of every frame
-        if (isActive && Time.time >= nextBoundsCheckTime)
-        {
-            CheckScreenBounds();
-            nextBoundsCheckTime = Time.time + boundsCheckInterval;
-        }
-    }
-
-    private void CheckScreenBounds()
-    {
-        // Destroy if below screen
-        if (transform.position.y < screenBottomY)
-        {
-            RemoveObject();
-        }
+        // Bounds checking removed - now destruction happens on ground collision
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -81,6 +67,11 @@ public class GuffController : MonoBehaviour
             }
             
             RemoveObject(); // Remove the Guff after collision
+        }
+        // Check if collided with ground
+        else if (collision.CompareTag("ground"))
+        {
+            RemoveObject(); // Destroy when hitting ground
         }
     }
 

@@ -225,6 +225,13 @@ public class GameManager : MonoBehaviour
     {
         lives--;
         Debug.Log("Lives remaining: " + lives);
+        
+        // Update UI through PlayerController
+        PlayerController playerController = FindFirstObjectByType<PlayerController>();
+        if (playerController != null)
+        {
+            playerController.OnLivesChanged();
+        }
 
         // Check if game over (when lives reach 0)
         if (lives <= 0)
