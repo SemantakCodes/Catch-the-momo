@@ -1,3 +1,5 @@
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GuffController : MonoBehaviour
@@ -16,6 +18,10 @@ public class GuffController : MonoBehaviour
     private float nextBoundsCheckTime;
     private GameManager gameManager;
     private bool isActive = true;
+
+    [Header("Guff Settings")]
+    [SerializeField] private string[] Guff;
+    [SerializeField] private TextMeshProUGUI tmp;
 
     private void OnEnable()
     {
@@ -37,11 +43,19 @@ public class GuffController : MonoBehaviour
         // Cache screen bounds
         float distance = 10f;
         screenBottomY = mainCam.ViewportToWorldPoint(new Vector3(0, -0.5f, distance)).y;
+
+        // Select and print a random guff
+        if (Guff != null && Guff.Length > 0)
+        {
+            int randomIndex = Random.Range(0, Guff.Length);
+            string selectedGuff = Guff[randomIndex];
+            Debug.Log("Guff: " + selectedGuff);
+        }
     }
 
     private void Update()
     {
-        // Bounds checking removed - now destruction happens on ground collision
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
