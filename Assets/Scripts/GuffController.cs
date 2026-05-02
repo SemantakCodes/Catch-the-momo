@@ -7,26 +7,34 @@ public class GuffController : MonoBehaviour
     [Header("Falling Settings")]
     [SerializeField] private float fallSpeed = 5f;
     [SerializeField] private bool useGravity = true;
-
     [Header("Collision Settings")]
     [SerializeField] private string playerTag = "Player"; // Tag on player object
     [SerializeField] private float boundsCheckInterval = 0.5f; // Check bounds periodically for efficiency
-
     private Rigidbody2D rb;
     private Camera mainCam;
-    private float screenBottomY;
-    private float nextBoundsCheckTime;
     private GameManager gameManager;
     private bool isActive = true;
-
     [Header("Guff Settings")]
     [SerializeField] private string[] Guff;
-    [SerializeField] private TextMeshProUGUI tmp;
+    [SerializeField] private TMPro.TextMeshPro tmp;
 
     private void OnEnable()
     {
         isActive = true;
-        nextBoundsCheckTime = Time.time + boundsCheckInterval;
+
+        // Get the TextMeshProUGUI component if not already assigned
+        if (tmp == null)
+        {
+            tmp = GetComponentInChildren<TextMeshPro>();
+        }
+
+        // Select and print a random guff on each spawn
+        if (Guff != null && Guff.Length > 0 && tmp != null)
+        {
+            int randomIndex = Random.Range(0, Guff.Length);
+            string selectedGuff = Guff[randomIndex];
+            tmp.SetText(selectedGuff);
+        }
     }
 
     private void Start()
@@ -35,27 +43,9 @@ public class GuffController : MonoBehaviour
         mainCam = Camera.main;
         gameManager = Object.FindFirstObjectByType<GameManager>();
 
-
         // Setup physics
         rb.gravityScale = useGravity ? 1f : 0f;
         rb.linearVelocity = new Vector2(0, -fallSpeed);
-
-        // Cache screen bounds
-        float distance = 10f;
-        screenBottomY = mainCam.ViewportToWorldPoint(new Vector3(0, -0.5f, distance)).y;
-
-        // Select and print a random guff
-        if (Guff != null && Guff.Length > 0)
-        {
-            int randomIndex = Random.Range(0, Guff.Length);
-            string selectedGuff = Guff[randomIndex];
-            Debug.Log("Guff: " + selectedGuff);
-        }
-    }
-
-    private void Update()
-    {
-        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -119,7 +119,16 @@ public class GameManager : MonoBehaviour
         SpawnableObject spawnObj = GetWeightedRandomObject();
         GameObject prefab = spawnObj.prefab;
 
-        float randomX = Random.Range(minX + spawnObj.minPadding, maxX - spawnObj.minPadding);
+        // Get the object's width to prevent spawning out of bounds
+        float objectWidth = 0f;
+        SpriteRenderer spriteRenderer = prefab.GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null && spriteRenderer.sprite != null)
+        {
+            objectWidth = spriteRenderer.sprite.bounds.size.x;
+        }
+
+        float padding = spawnObj.minPadding + (objectWidth / 2f);
+        float randomX = Random.Range(minX + padding, maxX - padding);
         Vector3 spawnPos = new Vector3(randomX, spawnY, 0);
 
         GameObject obj = GetPooledObject(prefab);
