@@ -21,7 +21,6 @@ public class GuffController : MonoBehaviour
     private void OnEnable()
     {
         isActive = true;
-
         // Get the TextMeshProUGUI component if not already assigned
         if (tmp == null)
         {
@@ -42,7 +41,6 @@ public class GuffController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         mainCam = Camera.main;
         gameManager = Object.FindFirstObjectByType<GameManager>();
-
         // Setup physics
         rb.gravityScale = useGravity ? 1f : 0f;
         rb.linearVelocity = new Vector2(0, -fallSpeed);
@@ -54,16 +52,13 @@ public class GuffController : MonoBehaviour
         if (collision.CompareTag(playerTag))
         {
             isActive = false;
-            
             // Get player movement component
             PlayerMovement playerMovement = collision.GetComponent<PlayerMovement>();
-            
             // Only deal damage if player is not invincible
             if (playerMovement != null && !playerMovement.IsInvincible())
             {
                 playerMovement.Blink();
                 playerMovement.ResetPosition();
-                
                 if (gameManager != null)
                 {
                     gameManager.LoseLife(); // Lose one life
