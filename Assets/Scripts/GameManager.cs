@@ -285,6 +285,9 @@ public class GameManager : MonoBehaviour
         // Optional: Add a short delay for polish (feels less jarring)
         yield return new WaitForSecondsRealtime(0.5f);
 
+        // Reset time scale before loading menu
+        Time.timeScale = 1f;
+
         // Load game over scene
         UnityEngine.SceneManagement.SceneManager.LoadScene(gameOverScene);
     }

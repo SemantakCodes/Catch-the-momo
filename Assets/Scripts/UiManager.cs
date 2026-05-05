@@ -38,6 +38,13 @@ public class UiManager : MonoBehaviour
             audioSource.PlayOneShot(buttonClickSfx);
         }
     }
+
+    private void OnDestroy()
+    {
+        playButton.onClick.RemoveListener(OnPlayButtonPressed);
+        quitButton.onClick.RemoveListener(OnQuitButtonPressed);
+    }
+
     public void OpenDonation()
     {
         PlayButtonSound(); 
