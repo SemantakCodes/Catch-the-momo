@@ -128,7 +128,14 @@ public class GameManager : MonoBehaviour
         }
 
         float padding = spawnObj.minPadding + (objectWidth / 2f);
-        float randomX = Random.Range(minX + padding, maxX - padding);
+        float spawnRangeMin = minX + padding;
+        float spawnRangeMax = maxX - padding;
+        
+        // Clamp to ensure valid range
+        spawnRangeMin = Mathf.Min(spawnRangeMin, (minX + maxX) / 2f);
+        spawnRangeMax = Mathf.Max(spawnRangeMax, (minX + maxX) / 2f);
+        
+        float randomX = Random.Range(spawnRangeMin, spawnRangeMax);
         Vector3 spawnPos = new Vector3(randomX, spawnY, 0);
 
         GameObject obj = GetPooledObject(prefab);
@@ -172,13 +179,11 @@ public class GameManager : MonoBehaviour
 
     private void CalculateSpawnArea()
     {
-        float distance = 10f;
-        float screenLeft = mainCam.ViewportToWorldPoint(new Vector3(0, 0, distance)).x;
-        float screenRight = mainCam.ViewportToWorldPoint(new Vector3(1, 0, distance)).x;
+        float distance = 0f;
         spawnY = mainCam.ViewportToWorldPoint(new Vector3(0, 1.1f, distance)).y;
 
-        minX = screenLeft;
-        maxX = screenRight;
+        minX = -1.336f;
+        maxX = 2.02f;
     }
 
     // Call this when an object is caught/destroyed
@@ -210,7 +215,6 @@ public class GameManager : MonoBehaviour
     public void AddScore(int points)
     {
         score += points;
-        Debug.Log("Score: " + score);
     }
 
     public int GetScore()
@@ -233,7 +237,13 @@ public class GameManager : MonoBehaviour
     public void LoseLife()
     {
         lives--;
-        Debug.Log("Lives remaining: " + lives);
+        
+        // Trigger visual feedback
+        FinalTouch finalTouch = FindFirstObjectByType<FinalTouch>();
+        if (finalTouch != null)
+        {
+            finalTouch.OnLoseLife();
+        }
         
         // Update UI through PlayerController
         PlayerController playerController = FindFirstObjectByType<PlayerController>();
@@ -256,9 +266,19 @@ public class GameManager : MonoBehaviour
 
     private System.Collections.IEnumerator GameOverSequence()
     {
+        // Trigger violent death shake
+        FinalTouch finalTouch = FindFirstObjectByType<FinalTouch>();
+        if (finalTouch != null)
+        {
+            finalTouch.OnGameOver();
+        }
+        
         // Disable spawning immediately
         enabled = false;
 
+        // Wait for death shake to complete before pausing
+        yield return new WaitForSeconds(0.3f);
+        
         // Pause game smoothly
         Time.timeScale = 0f;
 

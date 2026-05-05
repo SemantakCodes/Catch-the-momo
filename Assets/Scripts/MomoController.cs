@@ -53,6 +53,14 @@ public class MomoController : MonoBehaviour
             if (gameManager != null)
             {
                 gameManager.AddScore(1); // Add 1 point for catching Momo
+                
+                // Trigger catch feedback
+                FinalTouch finalTouch = Object.FindFirstObjectByType<FinalTouch>();
+                if (finalTouch != null)
+                {
+                    finalTouch.OnCatchMomo(transform.position);
+                    finalTouch.AddCatchJuice();
+                }
             }
 
             // Drop and destroy Momo

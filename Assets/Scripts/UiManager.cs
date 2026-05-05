@@ -7,6 +7,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Button playButton;
     [SerializeField] private Button quitButton;
     [SerializeField] private string gameScene;
+    public GameObject donationBox;
 
     private void Start()
     {
@@ -23,4 +24,15 @@ public class UiManager : MonoBehaviour
     {
         Application.Quit();
     }
+    public void OpenDonation()
+    {
+        donationBox.SetActive(true);
+    }
+    public void CloseDonation()
+    {
+        donationBox.SetActive(false);
+    }
+
+        
+    
 }

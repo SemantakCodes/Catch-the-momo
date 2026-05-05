@@ -26,7 +26,7 @@ public class GuffController : MonoBehaviour
         {
             tmp = GetComponentInChildren<TextMeshPro>();
         }
-
+            
         // Select and print a random guff on each spawn
         if (Guff != null && Guff.Length > 0 && tmp != null)
         {
@@ -62,6 +62,13 @@ public class GuffController : MonoBehaviour
                 if (gameManager != null)
                 {
                     gameManager.LoseLife(); // Lose one life
+                    
+                    // Trigger catch guff sound
+                    FinalTouch finalTouch = Object.FindFirstObjectByType<FinalTouch>();
+                    if (finalTouch != null)
+                    {
+                        finalTouch.OnCatchGuff(transform.position);
+                    }
                 }
             }
             
