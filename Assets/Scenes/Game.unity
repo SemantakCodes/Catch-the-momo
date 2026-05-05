@@ -738,9 +738,9 @@ MonoBehaviour:
   catchZoomDuration: 0.2
   deathShakeMagnitude: 0.5
   deathShakeDuration: 0.6
-  catchMomoSound: {fileID: 0}
-  catchGuffSound: {fileID: 0}
-  gameOverSound: {fileID: 0}
+  catchMomoSound: {fileID: 8300000, guid: b54887d9b63263e49aa8714d1fedd02f, type: 3}
+  catchGuffSound: {fileID: 8300000, guid: ec270c4bef688d14584c091a7c1e1daf, type: 3}
+  gameOverSound: {fileID: 8300000, guid: 3dcc1306c900f0646b051a69e322f37f, type: 3}
   soundVolume: 0.8
 --- !u!4 &726076320
 Transform:
